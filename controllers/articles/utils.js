@@ -8,10 +8,10 @@ module.exports = {
                 body: obj.body,
                 category: obj.category,
                 tags: obj.tags.split(','),
-                image: JSON.parse(obj.id),
-                author: JSON.parse(obj.id),
-                createdAt: obj.id,
-                updatedAt: obj.id
+                image: JSON.parse(obj.image),
+                author: JSON.parse(obj.author),
+                createdAt: obj.createdAt,
+                updatedAt: obj.updatedAt
             }
         })
     }
