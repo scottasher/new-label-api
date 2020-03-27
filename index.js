@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+console.log(process.env.NODE_ENV)
+
 const keys  = require('./config/keys');
 require('cors');
 
