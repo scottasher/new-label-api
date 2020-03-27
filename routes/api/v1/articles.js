@@ -4,7 +4,7 @@ const auth = require('../../auth');
 
 router.post('/', auth, articles.create);
 router.get('/', articles.all);
-router.get('/:id', auth, articles.getById);
+router.get('/:id', articles.getById);
 router.put('/:id', auth, articles.updateById);
 router.post('/image', auth, articles.uploadImage);
 

@@ -10,6 +10,7 @@ module.exports = {
                 tags: obj.tags.split(','),
                 image: JSON.parse(obj.image),
                 author: JSON.parse(obj.author),
+                status: obj.status,
                 createdAt: obj.createdAt,
                 updatedAt: obj.updatedAt
             }

@@ -28,6 +28,7 @@ module.exports = {
         const uploadPath = keys.ROOT_URL + '/article-images/' + imageName;
         const image = { name: imageName, path: uploadPath }; 
         const author = { id: id, name: displayName };
+        console.log(author)
         const newArticle = {
             ...req.body,
             image: JSON.stringify(image),
@@ -57,12 +58,16 @@ module.exports = {
         })
     },
     all: async (req, res, next) => {
-        const data = await Article.findAll({ order: [['createdAt', 'DESC']]})
+        const data = await Article.findAll({ limit: Number(req.query.count) || null, where: { status: ['public', 'private', 'draft'] }, order: [['createdAt', 'DESC']] })
         return res.json(parseArticles(data))
     },
     getById: (req, res, next) => {
         Article.findOne({ where: {id: req.params.id}, raw: true }).then(data => {
-            console.log(JSON.parse(data.author))
+            if(!data) {
+                return res.json({
+                    redirect: '/404',
+                })
+            }
             return res.json({
                 id: data.id,
                 title: data.title,
@@ -81,22 +86,19 @@ module.exports = {
     },
     updateById: (req, res, next) => {
         const { imageName } = req.body;
-        const { id, displayName } = req.params
         // tags.map(tag => Tag.findOrCreate({ raw: true, where: { name: tag }, defaults: { name: tag} })
         //     .spread((tag, created) => tag));
-    
         const uploadPath = keys.ROOT_URL + '/article-images/' + imageName;
         const image = { name: imageName, path: uploadPath };
-        const author = { id: id, name: displayName };
     
         const newArticle = {
             ...req.body,
             image: JSON.stringify(image),
-            author: JSON.stringify(author)
         };
-        Article.findByPk(id).then(foundCourse => {
+        Article.findByPk(req.params.id).then(foundCourse => {
+            console.log(foundCourse)
             if(foundCourse) {
-                foundCourse.update(newArticle, {returning: true, where: {id: id} }).then(updated => {  
+                foundCourse.update(newArticle, {returning: true, where: {id: req.params.id} }).then(updated => {  
                     return res.json({
                         article: {
                             id: updated.id,
@@ -107,8 +109,6 @@ module.exports = {
                             tags: updated.tags.split(','),
                             image: JSON.parse(updated.image),
                             author: JSON.parse(updated.author),
-                            extra1: updated.extra1,
-                            extra2: updated.extra2,
                             createdAt: updated.createdAt,
                             updatedAt: updated.updatedAt,
                         },

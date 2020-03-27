@@ -1,7 +1,7 @@
-const { Contact } = require('../../db');
+const { Contact, MailingListUser } = require('../../db');
 const Mailer = require('../../services/mail/Mailer');
-const { generateEmail } = require('../../services/mail');
 const contactUs = require('../../services/mail/templates/contactUs');
+const mailingSignUp = require('../../services/mail/templates/mailingSignUp');
 
 module.exports = {
     contact: (req, res, next) => {
@@ -15,5 +15,16 @@ module.exports = {
             })
 
         }).catch((err) => console.log(err))
-    }
+    },
+    addToMailingList: (req, res, next) => {
+        MailingListUser.create(req.body).then(async user => {
+            console.log(user)
+            Mailer({recipients: [user.email], subject: 'You signed up for our mailing list', ...user}, mailingSignUp(user))
+            return res.json({
+                type: 'success',
+                alert: 'Signed up successfully',
+                description: `You will receive a confirmation email soon to email: ${user.email}`
+            })
+        });
+    },
 };

@@ -1,5 +1,3 @@
-const { makeid } = require('../utils');
-
 module.exports = (sequelize, type) => {
     const Article = sequelize.define('article', {
         id: {
