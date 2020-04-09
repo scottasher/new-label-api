@@ -3,7 +3,7 @@ const { users } = require('../../../controllers');
 const auth = require('../../auth');
 const authority = require('../../../middleware/authority');
 
-// ROUTES
+// ROUTES   
 router.post('/', users.register);
 router.get('/', auth, authority.admin, users.all);
 router.get('/verification/:id/:token', users.verifyToken);
