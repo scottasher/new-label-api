@@ -2,7 +2,7 @@ const auths = [
     'superAdmin',
     'admin',
     'editor',
-    'author',
+    'author'
 ]
 
 const authority = {
