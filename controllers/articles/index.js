@@ -58,7 +58,25 @@ module.exports = {
         })
     },
     all: async (req, res, next) => {
-        const data = await Article.findAll({ limit: Number(req.query.count) || null, where: { status: ['public', 'private', 'draft'] }, order: [['createdAt', 'DESC']] })
+        console.log(req.query)
+        let query = {};
+        let limit;
+        query.status = 'public'
+        if(req.query.status) {
+            query.status = req.query.status;
+        }
+        if(req.query.author) {
+            query.author = req.query.author;
+        }
+        if(req.query.count) {
+            limit = req.query.count;
+        }
+
+        const data = await Article.findAll({ 
+            limit: limit, 
+            where: query, 
+            order: [['createdAt', 'DESC']] 
+        })
         return res.json(parseArticles(data))
     },
     getById: (req, res, next) => {

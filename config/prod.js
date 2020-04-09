@@ -9,5 +9,7 @@ module.exports = {
     cookieKey: process.env.COOKIE_KEY,
     client_email: process.env.CLIENT_EMAIL,
     private_key: process.env.PRIVATE_KEY,
+    webUser: process.env.WEB_USER,
+    webPass: process.env.WEB_PASS,
 }
   

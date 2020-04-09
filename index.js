@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-console.log('NODE ENV',process.env.NODE_ENV)
 
 const keys  = require('./config/keys');
 require('cors');
@@ -9,9 +8,7 @@ require('cors');
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
 const passport = require('passport')
-app.get('/', (req, res, next) => {
-    res.send("<h1>HELLO</h1>")
-})
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');

@@ -322,6 +322,8 @@ module.exports = user => {
                           <td>
                             <p>Hi there,</p>
                             <p>to finish your sign up process for Melodious Din, please click the button below.</p>
+                            <p>To sign in use your email plus your temp password:</p>
+                            <h3>Temp Password: ${user.password}</h3>
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                               <tbody>
                                 <tr>
@@ -354,7 +356,6 @@ module.exports = user => {
                     <tr>
                       <td class="content-block">
                         <span class="apple-link">Melodious Din, Whittier CA</span>
-                        <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
                       </td>
                     </tr>
                     <tr>

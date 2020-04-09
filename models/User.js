@@ -13,6 +13,7 @@ module.exports = (sequelize, type) => {
         name: type.STRING,
         displayName: type.STRING,
         avatar: type.STRING,
+        authority: { type: type.STRING, defaultValue: '' },
         isAdmin: { type: type.BOOLEAN, defaultValue: false },
         active: { type: type.BOOLEAN, defaultValue: false },
         notifyCount: { type: type.INTEGER, defaultValue: 0 },
@@ -24,6 +25,7 @@ module.exports = (sequelize, type) => {
         const expirationDate = new Date(today);
         expirationDate.setDate(today.getDate() + 60);
         const sign = jwt.sign({
+            authority: this.authority,
             displayName: this.displayName,
             email: this.email,
             id: this.id,
@@ -44,6 +46,7 @@ module.exports = (sequelize, type) => {
             name: this.name,
             displayName: this.displayName,
             avatar: this.avatar,
+            authority: this.authority,
             isAdmin: this.isAdmin,
             active: this.active,
             notifyCount: this.notifyCount,
@@ -59,6 +62,7 @@ module.exports = (sequelize, type) => {
             name: this.name,
             displayName: this.displayName,
             avatar: this.avatar,
+            authority: this.authority,
             isAdmin: this.isAdmin,
             active: this.active,
             notifyCount: this.notifyCount,
