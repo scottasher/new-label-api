@@ -9,9 +9,7 @@ module.exports = {
         let dir = __dirname.split('/controllers/articles').join("");
         
         uploadPath = dir + '/uploads/article-images/' + articleImage.name
-        return res.json({
-            uploadPath
-        })
+        
         articleImage.mv(uploadPath, (err) => {
             if(err) {
                 return res.status(500).json(err);

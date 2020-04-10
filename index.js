@@ -29,18 +29,18 @@ app.use(function(req, res, next) {
     }
 });
 
-app.get('/api/path', (req, res, next) => {
-    res.send(express.static(path.resolve(__dirname, 'uploads')))
-})
-
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/uploads", express.static(keys.ROOT_URL + "/api/uploads"));
+app.use(express.static(path.resolve(__dirname, 'uploads')));
 require('./services/passport')
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./routes'));
+
+app.get("/images/uploads/:path/:name",function (req, res, next) {
+    res.sendFile(`${__dirname}/uploads/${req.params.path}/${req.params.name}`)
+});
 
 //Error handlers & middlewares
 if(!isProduction) {
