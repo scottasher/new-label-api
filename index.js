@@ -6,6 +6,13 @@ const keys  = require('./config/keys');
 require('cors');
 
 const isProduction = process.env.NODE_ENV === 'production';
+const dir = () => {
+    if(!isProduction) {
+        return __dirname
+    } 
+
+    return keys.ROOT_URL
+}
 const app = express();
 const passport = require('passport')
 
@@ -25,7 +32,7 @@ app.use(function(req, res, next) {
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/uploads", express.static(path.resolve(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.resolve(dir, 'uploads')));
 require('./services/passport')
 app.use(passport.initialize());
 app.use(passport.session());
