@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
     }
 });
 
-app.get('/api/path/ping', (req, res, next) => {
+app.get('/', (req, res, next) => {
     res.send(path.resolve(dir(), 'uploads'))
 })
 
