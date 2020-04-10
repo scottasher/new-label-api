@@ -69,7 +69,7 @@ module.exports = {
             query.author = req.query.author;
         }
         if(req.query.count) {
-            limit = req.query.count;
+            limit = Number(req.query.count);
         }
 
         const data = await Article.findAll({ 
