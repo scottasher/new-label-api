@@ -7,10 +7,11 @@ module.exports = {
         const { articleImage } = req.files;
         let uploadPath;
         let dir = __dirname.split('/controllers/articles').join("");
-        return res.json({
-            dir
-        })
+        
         uploadPath = dir + '/uploads/article-images/' + articleImage.name
+        return res.json({
+            uploadPath
+        })
         articleImage.mv(uploadPath, (err) => {
             if(err) {
                 return res.status(500).json(err);
