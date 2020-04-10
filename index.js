@@ -32,6 +32,7 @@ app.use(function(req, res, next) {
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+console.log(path.resolve(dir(), 'uploads'))
 app.use("/uploads", express.static(path.resolve(dir(), 'uploads')));
 require('./services/passport')
 app.use(passport.initialize());
