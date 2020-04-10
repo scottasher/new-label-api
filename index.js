@@ -38,7 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./routes'));
 
-app.get("/images/uploads/:path/:name",function (req, res, next) {
+app.get("/api/images/uploads/:path/:name",function (req, res, next) {
     res.sendFile(`${__dirname}/uploads/${req.params.path}/${req.params.name}`)
 });
 
