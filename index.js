@@ -7,11 +7,11 @@ require('cors');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const dir = () => {
-    if(!isProduction) {
-        return __dirname
+    if(isProduction) {
+        return "https://melodiousdin.com/"
     } 
 
-    return keys.ROOT_URL
+    return __dirname
 }
 const app = express();
 const passport = require('passport')
