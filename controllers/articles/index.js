@@ -26,7 +26,7 @@ module.exports = {
     create: async (req, res, next) => {
         const { imageName } = req.body;
         const { id, displayName } = req.payload;
-        const uploadPath = keys.ROOT_URL + '/article-images/' + imageName;
+        const uploadPath = keys.ROOT_URL + '/api/images/article-images/' + imageName;
         const image = { name: imageName, path: uploadPath }; 
         const author = { id: id, name: displayName };
         console.log(author)
