@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-
+const path = require('path');
 const keys  = require('./config/keys');
 require('cors');
 
@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static('uploads'));
+app.use("/uploads", express.static(path.resolve(__dirname, 'uploads')));
 require('./services/passport')
 app.use(passport.initialize());
 app.use(passport.session());
