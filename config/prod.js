@@ -6,6 +6,7 @@ module.exports = {
     email_pass: process.env.EMAIL_PASS,
     PORT: process.env.PORT,
     ROOT_URL: process.env.ROOT_URL,
+    ROOT_URL_CLIENT: process.env.ROOT_URL_CLIENT,
     cookieKey: process.env.COOKIE_KEY,
     client_email: process.env.CLIENT_EMAIL,
     private_key: process.env.PRIVATE_KEY,

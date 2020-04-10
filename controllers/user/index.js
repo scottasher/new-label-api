@@ -300,5 +300,21 @@ module.exports = {
                 })
             })
         });
-    }
+    },
+    update: async (req, res, next) => {
+        const { params: { id }, body } = req;
+
+        User.findByPk(id).then(user => {
+            Object.keys(body.user).map(item => {
+                return user[item] = body.user[item]
+            })
+            res.send(user)
+            // user.update(
+            //     {id: id},
+            //     {where: body.user}
+            // ).then(updated => {
+            //     res.json(updated)
+            // })
+        })
+    },
 };
