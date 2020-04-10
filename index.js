@@ -30,7 +30,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/api/path', (req, res, next) => {
-    res.send(path.resolve(dir(), 'uploads'))
+    res.send(dir(), 'uploads')
 })
 
 app.use(fileUpload());
