@@ -30,13 +30,13 @@ app.use(function(req, res, next) {
 });
 
 app.get('/api/path', (req, res, next) => {
-    res.send(dir(), 'uploads')
+    res.send(path.resolve(__dirname, 'uploads'))
 })
 
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/uploads", express.static(path.resolve(dir(), 'uploads')));
+app.use("/uploads", express.static(path.resolve(__dirname, 'uploads')));
 require('./services/passport')
 app.use(passport.initialize());
 app.use(passport.session());
