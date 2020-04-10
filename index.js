@@ -36,7 +36,7 @@ app.get('/api/path', (req, res, next) => {
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/uploads", express.static(keys.ROOT_URL + "/uploads"));
+app.use("/uploads", express.static(keys.ROOT_URL + "/api/uploads"));
 require('./services/passport')
 app.use(passport.initialize());
 app.use(passport.session());
