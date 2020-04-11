@@ -13,5 +13,7 @@ router.get('/:id', auth, authority.admin, users.findById)
 router.post('/password/reset/request', users.updatePassReq);
 router.put('/password/reset', auth, users.updatePass);
 router.delete('/:id', auth, authority.admin, users.deleteUser);
-router.put('/:id', users.update)
+router.put('/:id', users.update);
+router.get('/resend/verify/:id', users.resendVerifyEmail);
+
 module.exports = router;

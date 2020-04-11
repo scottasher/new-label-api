@@ -39,7 +39,6 @@ module.exports = {
         };
         User.findOrCreate({ where: {email: user.email}, defaults: newUser})
             .then(async ([createdUser, created]) => {
-                console.log(createdUser, created)
                 if(!created) {
                     return res.json({
                         user: { active: false, isAdmin: false },
@@ -49,8 +48,8 @@ module.exports = {
                         description: 'The email supplied is already registed to an account'
                     })
                 }
-    
-                let token = await Token.generate({ user_id: createdUser.id });
+
+                let token = await Token.generate(createdUser.id);
                 let finalUserEmail = generateEmail(createdUser, user.password, token);
                 const users = await User.findAll();
                 try {
@@ -72,11 +71,42 @@ module.exports = {
                 }
             }).catch(err => res.json(err));
     },
+    resendVerifyEmail: async (req, res, next) => {
+        const { params } = req;
+        const newPass = makeid(13);
+       
+        Token.destroy({ where: { userId: params.id }}).then(tok => {
+            User.update(
+                {hash: generateHash(newPass)},{returning: true, where: {id: params.id} }
+              )
+              .then(async function([ rowsUpdate, updatedUser ]) {
+                const user = await User.findByPk(params.id); 
+                const token = await Token.generate(params.id);
+                const finalUserEmail = generateEmail(user, newPass, token);
+                try {
+                    Mailer(finalUserEmail, newUserTemplate(finalUserEmail))
+                    return res.json({
+                        user: user,
+                        type: 'success',
+                        alert: 'Email Sent',
+                        title: 'Successfully sent new verification email',
+                    })
+                } catch(err) {
+                    return res.json({
+                        user: user,
+                        type: 'error',
+                        alert: 'Something went wrong',
+                        title: 'Something went wrong please try again',
+                    })
+                }
+              }).catch(next)
+        });
+    },
     verifyToken: (req, res, next) => {
         const { params } = req;
         if(!params.id || !params.token) { return res.redirect(`${ROOT_URL_CLIENT}/?activatedUser=false`) }
     
-        Token.findOne({ raw: true, where: { token: params.token }}).then(token => {
+        Token.findOne({ raw: true, where: { userId: params.id }}).then(token => {
             // console.log('[TOKEN IN VERIFICATION]', token)
             if(!checkTokenExp(token.createdAt)) {
                 Token.destroy({
@@ -90,7 +120,7 @@ module.exports = {
                         where: { id: params.id },
                         attributes: [ 'id', 'email' ] 
                     }).then(async user => {
-                        let token = await Token.generate({userId: user.id, token: randToken });
+                        let token = await Token.generate(user.id);
                         let finalUserEmail = {
                             recipients: [user.email],
                             subject: 'Complete Registration',
@@ -108,15 +138,13 @@ module.exports = {
                 })
             }
     
-            if(params.token == token.token) {
+            if(params.token === token.token) {
                 User.update(
                     {active: 1},
                     {returning: true, where: {id: params.id}}
                 ).then(i => {
                     Token.destroy({
-                        where: {
-                            token: params.token
-                        }
+                        where: { userId: params.id }
                     })
                     res.redirect(`${ROOT_URL_CLIENT}/?activatedUser=true`)
                 }).catch(err => {
