@@ -25,7 +25,7 @@ const Category = CategoryModel(sequelize, Sequelize);
 const Contact = ContactModel(sequelize, Sequelize);
 const MailingListUser = MailingListUserModel(sequelize, Sequelize);
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
 .then(() => {
     console.log(`Database & tables created!`)
 }).catch(err => {
