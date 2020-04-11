@@ -107,7 +107,7 @@ module.exports = {
         const { imageName } = req.body;
         // tags.map(tag => Tag.findOrCreate({ raw: true, where: { name: tag }, defaults: { name: tag} })
         //     .spread((tag, created) => tag));
-        const uploadPath = keys.ROOT_URL + '/article-images/' + imageName;
+        const uploadPath = keys.ROOT_URL + '/api/images/uploads/article-images/' + imageName;
         const image = { name: imageName, path: uploadPath };
     
         const newArticle = {
