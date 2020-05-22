@@ -139,5 +139,23 @@ module.exports = {
                 })
             }
         })
+    },
+    deleteById: (req, res, next) => {
+        Article.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then(res => {
+            Articles.findAll().then(a => {
+                return res.json({
+                    notice: true,
+                    alert: 'Article Created',
+                    type: 'success',
+                    redirect: '/articles', 
+                    description: `Article created with title: ${a.title}`,
+                    articles: parseArticles(a),
+                });
+            })
+        })
     }
 };
