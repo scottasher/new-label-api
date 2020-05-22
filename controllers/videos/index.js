@@ -1,59 +1,59 @@
-const { Article } = require('../../db');
+const { Video } = require('../../db');
 const keys  = require('../../config/keys');
-const { parseArticles } = require('./utils');
+const { parseVideos } = require('./utils');
 
 module.exports = {
-    uploadImage: async (req, res, next) => {
-        const { articleImage } = req.files;
+    upload: async (req, res, next) => {
+        const { video } = req.files;
         let uploadPath;
-        let dir = __dirname.split('/controllers/articles').join("");
+        let dir = __dirname.split('/controllers/videos').join("");
         
-        uploadPath = dir + '/uploads/article-images/' + articleImage.name
+        uploadPath = dir + '/uploads/videos/' + video.name
         
-        articleImage.mv(uploadPath, (err) => {
+        video.mv(uploadPath, (err) => {
             if(err) {
                 return res.status(500).json(err);
             }
     
             return res.json({
                 notice: true,
-                alert: 'Image uploaded',
+                alert: 'Video uploaded',
                 type: 'success',
-                description: `The Image has uploaded`,
+                description: `The Video has uploaded`,
             });
         })
     },
     create: async (req, res, next) => {
-        const { imageName } = req.body;
+        const { videoName } = req.body;
         const { id, displayName } = req.payload;
-        const uploadPath = keys.ROOT_URL + '/api/images/uploads/article-images/' + imageName;
-        const image = { name: imageName, path: uploadPath }; 
+        const uploadPath = keys.ROOT_URL + '/api/images/uploads/videos/' + videoName;
+        const video = { name: videoName, path: uploadPath }; 
         const author = { id: id, name: displayName };
         console.log(author)
-        const newArticle = {
+        const newVideo = {
             ...req.body,
-            image: JSON.stringify(image),
+            video: JSON.stringify(video),
             author: JSON.stringify(author)
         };
-        // console.log('NEW ARTICLE CREATED', newArticle)
-        Article.create(newArticle).then(createdArticle => {
-            Article.findAll().then(a => {
+        // console.log('NEW ARTICLE CREATED', newVideo)
+        Video.create(newVideo).then(createdArticle => {
+            Video.findAll().then(a => {
                 return res.json({
                     notice: true,
-                    alert: 'Article Created',
+                    alert: 'Video Created',
                     type: 'success',
-                    redirect: '/articles', 
-                    description: `Article created with title: ${a.title}`,
-                    articles: parseArticles(a),
+                    redirect: '/videos', 
+                    description: `Video created with title: ${a.title}`,
+                    articles: parseVideos(a),
                 });
             })
         }).catch(err => {
             return res.json({
                 notice: true,
-                alert: 'Article Not Created',
+                alert: 'Video Not Created',
                 type: 'warning',
-                redirect: '/articles', 
-                description: `Failed to create article`,
+                redirect: '/videos', 
+                description: `Failed to upload video`,
                 err
             });
         })
@@ -73,68 +73,63 @@ module.exports = {
             limit = Number(req.query.count);
         }
 
-        const data = await Article.findAll({ 
+        const data = await Video.findAll({ 
             limit: limit, 
             where: query, 
             order: [['createdAt', 'DESC']] 
         })
-        return res.json(parseArticles(data))
+        return res.json(parseVideos(data))
     },
     getById: (req, res, next) => {
-        Article.findOne({ where: {id: req.params.id}, raw: true }).then(data => {
+        Video.findOne({ where: {id: req.params.id}, raw: true }).then(data => {
             if(!data) {
                 return res.json({
-                    redirect: '/404',
+                    redirect: '/videos',
                 })
             }
-            
             return res.json({
                 id: data.id,
                 title: data.title,
-                textSnippet: data.textSnippet,
-                body: JSON.parse(data.body),
+                description: data.description,
                 category: data.category,
                 tags: data.tags.split(','),
-                image: JSON.parse(data.image),
+                video: JSON.parse(data.video),
                 author: JSON.parse(data.author),
-                extra1: data.extra1,
-                extra2: data.extra2,
                 createdAt: data.createdAt,
                 updatedAt: data.updatedAt,
             })
         });
     },
     updateById: (req, res, next) => {
-        const { imageName } = req.body;
+        const { videoName } = req.body;
         // tags.map(tag => Tag.findOrCreate({ raw: true, where: { name: tag }, defaults: { name: tag} })
         //     .spread((tag, created) => tag));
-        const uploadPath = keys.ROOT_URL + '/api/images/uploads/article-images/' + imageName;
-        const image = { name: imageName, path: uploadPath };
+        const uploadPath = keys.ROOT_URL + '/api/images/uploads/videos/' + videoName;
+        const video = { name: videoName, path: uploadPath };
     
-        const newArticle = {
+        const newVideo = {
             ...req.body,
-            image: JSON.stringify(image),
+            video: JSON.stringify(video),
         };
-        Article.findByPk(req.params.id).then(foundCourse => {
-            console.log(foundCourse)
-            if(foundCourse) {
-                foundCourse.update(newArticle, {returning: true, where: {id: req.params.id} }).then(updated => {  
+        Video.findByPk(req.params.id).then(foundVideo => {
+            console.log(foundVideo)
+            if(foundVideo) {
+                foundVideo.update(newVideo, {returning: true, where: {id: req.params.id} }).then(updated => {  
                     return res.json({
-                        article: {
+                        video: {
                             id: updated.id,
                             title: updated.title,
-                            textSnippet: updated.textSnippet,
-                            body: updated.body,
+                            description: updated.description,
                             category: updated.category,
                             tags: updated.tags.split(','),
-                            image: JSON.parse(updated.image),
+                            video: JSON.parse(updated.video),
                             author: JSON.parse(updated.author),
                             createdAt: updated.createdAt,
                             updatedAt: updated.updatedAt,
                         },
-                        alert: 'Article Updated',
+                        alert: 'Video Updated',
                         type: 'success',
-                        description: `Article updated`,
+                        description: `Video updated`,
                     }) 
                 })
             }

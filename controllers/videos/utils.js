@@ -1,14 +1,13 @@
 module.exports = {
-    parseArticles: (articles) => {
-        return articles.map(obj => {
+    parseVideos: (videos) => {
+        return videos.map(obj => {
             return {
                 id: obj.id,
                 title: obj.title,
-                textSnippet: obj.textSnippet,
-                body: obj.body,
+                description: obj.body,
                 category: obj.category,
                 tags: obj.tags.split(','),
-                image: JSON.parse(obj.image),
+                video: JSON.parse(obj.image),
                 author: JSON.parse(obj.author),
                 status: obj.status,
                 createdAt: obj.createdAt,

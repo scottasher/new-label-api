@@ -3,4 +3,5 @@ module.exports = {
     articles: require('./articles'),
     categories: require('./categories'),
     utils: require('./utils'),
+    videos: require('./videos'),
 }

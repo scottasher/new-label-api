@@ -184,20 +184,11 @@ module.exports = {
                 const user = passportUser;
                 user.token = passportUser.generateJWT();
     
-                if(user.admin == true) {
-                    return res.json({
-                        redirect: '/dashboard',
-                        currentAuthority: 'admin',
-                        user: user.toAuthJSON()
-                    })
-                } else {
-                    return res.json({
-                        status: 'ok',
-                        type: 'account',
-                        currentAuthority: 'user',
-                        user: user.toAuthJSON()
-                    })
-                }
+                return res.json({
+                    redirect: '/dashboard',
+                    currentAuthority: user.authority,
+                    user: user.toAuthJSON()
+                })
             } else {
                 return res.json({
                     user: {active: false},

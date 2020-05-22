@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const keys = require('../config/keys');
 const UserModel = require('../models/User')
 const ArticleModel = require('../models/Article');
+const VideoModel = require('../models/Video');
 const TokenModel = require('../models/Token');
 const CategoryModel = require('../models/Category');
 const ContactModel = require('../models/Contact');
@@ -20,6 +21,7 @@ const sequelize = new Sequelize(keys.db_name, keys.db_user, keys.db_pass, {
 
 const User = UserModel(sequelize, Sequelize);
 const Article = ArticleModel(sequelize, Sequelize);
+const Video = VideoModel(sequelize, Sequelize);
 const Token = TokenModel(sequelize, Sequelize);
 const Category = CategoryModel(sequelize, Sequelize);
 const Contact = ContactModel(sequelize, Sequelize);
@@ -39,4 +41,5 @@ module.exports = {
     Category,
     Contact,
     MailingListUser,
+    Video,
 }
