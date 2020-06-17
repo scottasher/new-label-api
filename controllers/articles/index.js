@@ -145,14 +145,14 @@ module.exports = {
             where: {
                 id: req.params.id
             }
-        }).then(res => {
-            Articles.findAll().then(a => {
+        }).then(n => {
+            Article.findAll().then(a => {
                 return res.json({
                     notice: true,
-                    alert: 'Article Created',
+                    alert: 'Article deleted',
                     type: 'success',
                     redirect: '/articles', 
-                    description: `Article created with title: ${a.title}`,
+                    description: `Article deleted`,
                     articles: parseArticles(a),
                 });
             })

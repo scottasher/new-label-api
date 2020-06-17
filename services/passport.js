@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
   usernameField: 'user[email]',
   passwordField: 'user[password]',
 }, (email, password, done) => {
-    console.log('IN PASSPORT',email, password, done)
+    // console.log('IN PASSPORT',email, password, done)
     User.findOne({ where: { email: email } }).then(u => {
         if(!u) {
             return done(null, false, { email: false })

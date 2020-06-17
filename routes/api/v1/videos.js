@@ -6,6 +6,6 @@ router.post('/', auth, videos.create);
 router.get('/', videos.all);
 router.get('/:id', videos.getById);
 router.put('/:id', auth, videos.updateById);
-router.post('/image', auth, videos.upload);
+router.post('/video', auth, videos.upload);
 
 module.exports = router;
