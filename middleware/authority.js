@@ -50,7 +50,7 @@ const authority = {
             description: "You do not have permission to access this page"
         })
     },
-    editor: (req, res, next) => {
+    author: (req, res, next) => {
         if(req.payload.authority === 'superAdmin') {
             return next();
         }

@@ -4,4 +4,7 @@ module.exports = {
     categories: require('./categories'),
     utils: require('./utils'),
     videos: require('./videos'),
+    media: require('./media'),
+    personnel: require('./personnel'),
+
 }

@@ -18,6 +18,7 @@ module.exports = (sequelize, type) => {
         active: { type: type.BOOLEAN, defaultValue: false },
         notifyCount: { type: type.INTEGER, defaultValue: 0 },
         unreadCount: { type: type.INTEGER, defaultValue: 0 },
+        
     })
 
     User.prototype.generateJWT = function() {

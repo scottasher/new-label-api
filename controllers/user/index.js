@@ -186,6 +186,7 @@ module.exports = {
     
                 return res.json({
                     redirect: '/dashboard',
+                    type: 'login',
                     currentAuthority: user.authority,
                     user: user.toAuthJSON()
                 })

@@ -23,11 +23,34 @@ module.exports = {
             });
         })
     },
+    uploadThumbnail: async (req, res, next) => {
+        const { thumbnail } = req.files;
+        let uploadPath;
+        let dir = __dirname.split('/controllers/videos').join("");
+        
+        uploadPath = dir + '/uploads/videos/' + thumbnail.name
+        
+        thumbnail.mv(uploadPath, (err) => {
+            if(err) {
+                return res.status(500).json(err);
+            }
+    
+            return res.json({
+                notice: true,
+                alert: 'Video uploaded',
+                type: 'success',
+                description: `The Video has uploaded`,
+            });
+        })
+    },
     create: async (req, res, next) => {
         const { videoName } = req.body;
         const { id, displayName } = req.payload;
         const uploadPath = keys.ROOT_URL + '/api/images/uploads/videos/' + videoName;
-        const video = { name: videoName, path: uploadPath }; 
+        const video = { 
+            file: { name: videoName, path: videoUploadPath },
+            thumbnail: { name: thumbnailName, path: thumbnailUploadPath } 
+        }; 
         const author = { id: id, name: displayName };
         console.log(author)
         const newVideo = {
@@ -44,7 +67,7 @@ module.exports = {
                     type: 'success',
                     redirect: '/videos', 
                     description: `Video created with title: ${a.title}`,
-                    articles: parseVideos(a),
+                    videos: parseVideos(a),
                 });
             })
         }).catch(err => {
